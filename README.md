@@ -122,35 +122,63 @@ parser.finalize();
 ### 🧠 **LLM Integration Example**
 
 ```typescript
-// Perfect for OpenAI, Claude, or any streaming LLM
-async function handleLLMStream(stream: ReadableStream) {
-  const parser = new LLMStreamParser();
-  parser.addSimpleTags(['thinking', 'answer', 'code', 'explanation']);
+// Perfect for Gemini, OpenAI, Claude, or any streaming LLM
+import * as dotenv from 'dotenv';
+import { GoogleGenAI } from '@google/genai';
 
+import { LLMStreamParser } from 'llm-stream-parser';
+
+dotenv.config();
+
+const systemPrompt = `
+You are an instructor creating technical training content.
+You must respond in the following XML format:
+
+<lesson>
+  <title>Title here</title>
+  
+  <step number="1" difficulty="easy">
+    <explanation>exp here</explanation>
+    <code>code here</code>
+  </step>
+  
+  <summary>summary_here</summary>
+</lesson>
+`;
+
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+
+const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+
+async function main() {
+  const question = 'Create a lesson on developing a REST API with Express.js';
+  const parser = new LLMStreamParser();
   parser.on('tag_completed', tag => {
-    switch (tag.tagName) {
-      case 'thinking':
-        console.log('🤔 AI Reasoning:', tag.content);
-        break;
-      case 'answer':
-        console.log('💡 Answer:', tag.content);
-        break;
-      case 'code':
-        console.log('💻 Code:', tag.content);
-        break;
-    }
+    console.log(`${JSON.stringify(tag)}\n`);
   });
 
-  // Process stream chunks
-  const reader = stream.getReader();
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
+  parser.addSimpleTags([
+    'lesson',
+    'title',
+    'step',
+    'explanation',
+    'code',
+    'summary',
+  ]);
 
-    parser.parse(new TextDecoder().decode(value));
+  const response = await ai.models.generateContentStream({
+    model: 'gemini-2.0-flash',
+    contents: `${systemPrompt}\n\n${question}`,
+  });
+
+  for await (const chunk of response) {
+    if (chunk.text) {
+      parser.parse(chunk.text);
+    }
   }
-  parser.finalize();
 }
+
+main().catch(console.error);
 ```
 
 ## 🎯 Real-World Example
