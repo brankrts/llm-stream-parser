@@ -966,12 +966,11 @@ file for details.
 
 <div>
 
-| Resource             | Link                                                                            |
-| -------------------- | ------------------------------------------------------------------------------- |
-| 📖 **Documentation** | [Wiki](https://github.com/brankrts/llm-stream-parser/wiki)                      |
-| 🐛 **Bug Reports**   | [Issues](https://github.com/brankrts/llm-stream-parser/issues)                  |
-| 💬 **Discussions**   | [GitHub Discussions](https://github.com/brankrts/llm-stream-parser/discussions) |
-| 📧 **Email**         | [support@example.com](mailto:support@example.com)                               |
+| Resource             | Link                                                           |
+| -------------------- | -------------------------------------------------------------- |
+| 📖 **Documentation** | [Wiki](https://github.com/brankrts/llm-stream-parser)          |
+| 🐛 **Bug Reports**   | [Issues](https://github.com/brankrts/llm-stream-parser/issues) |
+| 📧 **Email**         | [brankrts@gmail.com](mailto:brankrts@gmail.com)                |
 
 </div>
 
