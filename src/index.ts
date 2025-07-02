@@ -20,4 +20,4 @@ export { TagTransformer, ContentTransformers, AttributeTransformers } from './co
 export * from './types';
 
 // Version info
-export const version = '1.0.0';
+export const version = '1.0.1';

@@ -1,6 +1,6 @@
 {
   "name": "llm-stream-parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A TypeScript library for parsing and processing structured data from LLM streaming responses with custom tag definitions and event-driven architecture",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
