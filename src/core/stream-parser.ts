@@ -161,6 +161,20 @@ export class StreamParser<T extends BaseTag = BaseTag> extends EventEmitter {
       const nextTag = this.tagMatcher.findNextTag(buffer, lastProcessedIndex);
 
       if (!nextTag) break;
+      // Check if the tag is registered BEFORE processing
+      const isRegistered = this.tagRegistry.has(nextTag.tagName);
+
+      if (!isRegistered) {
+        // If tag is not registered, treat the entire tag (including content) as text content
+        const unregisteredTagContent = this.tagMatcher.extractTextContent(
+          buffer,
+          lastProcessedIndex,
+          nextTag.endIndex
+        );
+        this.handleTextContent(unregisteredTagContent);
+        lastProcessedIndex = nextTag.endIndex;
+        continue;
+      }
 
       // Extract text content between tags
       if (nextTag.startIndex > lastProcessedIndex) {

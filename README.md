@@ -325,8 +325,6 @@ interface ParserConfig {
   trimWhitespace?: boolean; // Default: true - Auto-trim content
   caseSensitive?: boolean; // Default: true - Case-sensitive tags
 
-  // 🏗️ Nested Mode Configuration
-  enableNested?: boolean; // Default: false - Enable hierarchy
   maxDepth?: number; // Default: 10 - Max nesting depth
   autoCloseUnclosed?: boolean; // Default: false - Auto-close tags
 
@@ -357,7 +355,6 @@ const strictConfig: ParserConfig = {
 
 // 🧠 LLM Optimized Setup
 const llmConfig: ParserConfig = {
-  enableNested: true, // Support hierarchies
   maxDepth: 15, // Deep nesting for AI
   autoCloseUnclosed: true, // Forgive LLM errors
   trimWhitespace: true, // Clean AI output
@@ -407,11 +404,8 @@ const defaultConfig: ParserConfig = {
   maxBufferSize: 1024 * 1024, // 1MB buffer
   trimWhitespace: true, // Auto-trim content
   caseSensitive: true, // Case-sensitive tags
-  enableNested: false, // Flat parsing mode
   maxDepth: 10, // Max nesting depth
   autoCloseUnclosed: false, // Strict tag closing
-  batchSize: 1000, // Processing batch size
-  enableStatistics: true, // Performance tracking
 };
 ```
 
@@ -424,7 +418,6 @@ const defaultConfig: ParserConfig = {
 import { LLMStreamParser } from 'llm-stream-parser';
 
 const chatGPTParser = new LLMStreamParser({
-  enableNested: true, // Support nested reasoning
   maxDepth: 8, // Reasonable nesting limit
   autoCloseUnclosed: true, // Forgive incomplete tags
   trimWhitespace: true, // Clean output
@@ -454,7 +447,6 @@ chatGPTParser.on('tag_completed', tag => {
 
 ```typescript
 const claudeParser = new LLMStreamParser({
-  enableNested: true,
   maxDepth: 12, // Claude can be deeply nested
   autoCloseUnclosed: true, // Handle incomplete responses
   maxBufferSize: 2 * 1024 * 1024, // Larger buffer for long responses
@@ -484,7 +476,6 @@ const performanceParser = new LLMStreamParser({
   batchSize: 5000, // Large batch processing
   enableStatistics: false, // Disable overhead
   trimWhitespace: false, // Skip trimming
-  enableNested: false, // Flat mode for speed
 });
 
 // Minimal event handling for maximum speed
@@ -508,7 +499,6 @@ import { LLMStreamParser } from 'llm-stream-parser';
 
 class AIChatHandler {
   private parser = new LLMStreamParser({
-    enableNested: true,
     autoCloseUnclosed: true,
   });
 
@@ -588,7 +578,6 @@ import {
 
 class ReasoningAnalyzer {
   private parser = new LLMStreamParser({
-    enableNested: true,
     maxDepth: 15,
   });
 
@@ -810,7 +799,6 @@ const speedParser = new LLMStreamParser({
   batchSize: 10000, // Large batches
   enableStatistics: false, // Disable overhead
   trimWhitespace: false, // Skip processing
-  enableNested: false, // Flat mode only
   caseSensitive: false, // Faster matching
 });
 
@@ -856,7 +844,6 @@ const productionParser = new LLMStreamParser({
   enableStatistics: true, // Monitor performance
   autoCloseUnclosed: true, // Handle malformed input
   maxDepth: 20, // Support complex nesting
-  enableNested: true, // Full feature set
 });
 
 // Comprehensive error handling
@@ -922,7 +909,7 @@ describe('LLMStreamParser', () => {
 ```typescript
 describe('Integration Tests', () => {
   test('should handle complex nested structure', () => {
-    const parser = createParser({ enableNested: true });
+    const parser = createParser();
     parser.addSimpleTags(['doc', 'section', 'para']);
 
     const structure: any[] = [];
