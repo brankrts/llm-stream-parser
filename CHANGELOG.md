@@ -17,4 +17,4 @@
 - Unregistered tags (like HTML elements) are treated as raw content instead of
   being parsed
 
-## [1.0.1] - 2024-01-15
+## [1.1.0] - 2025-09-14
